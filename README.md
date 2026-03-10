@@ -97,7 +97,7 @@ Backend
 │   │     auth.middleware.js
 │   │     admin.middleware.js
 │   │     error.middleware.js
-│   │     multer.middleware.js
+│   │     upload.middleware.js
 │
 │   ├── models
 │   │     auth.model.js
@@ -114,6 +114,7 @@ Backend
 │
 │   ├── services
 │   │     tmdb.service.js      # TMDB API configuration
+│   │     image.service.js
 │
 │   └── validators
 │         auth.validator.js
