@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const favoriteSchema = new mongoose.Schema(
+const historySchema = new mongoose.Schema(
   {
     userId:{
       type:mongoose.Schema.Types.ObjectId,
@@ -21,6 +21,6 @@ const favoriteSchema = new mongoose.Schema(
   }
 );
 
-const favoriteModel = mongoose.model("Favorites",favoriteSchema);
+const historyModel = mongoose.model("History",historySchema);
 
-export default favoriteModel;
+export default historyModel;
