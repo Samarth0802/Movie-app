@@ -1,0 +1,288 @@
+@use '../../../global/style.scss' as *;
+
+// ─── Auth Layout (shared by Login + Register) ────────────
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Left Panel — Cinematic Background ───────────────────
+.auth-left {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://image.tmdb.org/t/p/original/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.45);
+    transform: scale(1.04);
+    transition: transform 8s ease;
+
+    &:hover {
+      transform: scale(1.0);
+    }
+  }
+
+  // dark gradient over image
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(10, 10, 10, 0.4) 50%,
+      rgba(229, 9, 20, 0.08) 100%
+    );
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    @include flex-col;
+    justify-content: space-between;
+    padding: 3rem;
+  }
+
+  &__logo {
+    font-family: $font-display;
+    font-size: 2.2rem;
+    letter-spacing: 5px;
+    color: $accent-red;
+    text-shadow: 0 0 30px $accent-glow;
+  }
+
+  &__tagline {
+    @include flex-col;
+    gap: 1rem;
+
+    h2 {
+      font-family: $font-display;
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      color: $text-primary;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: $text-secondary;
+      max-width: 380px;
+      line-height: 1.7;
+    }
+  }
+
+  &__stats {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  &__stat {
+    @include flex-col;
+    gap: 4px;
+
+    strong {
+      font-family: $font-display;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      color: $accent-red;
+    }
+
+    span {
+      font-size: 0.78rem;
+      color: $text-muted;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// ─── Right Panel — Form Area ──────────────────────────────
+.auth-right {
+  @include flex-center;
+  padding: 2rem;
+  background: $bg-secondary;
+  position: relative;
+  overflow: hidden;
+
+  // subtle red glow top right
+  &::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(229, 9, 20, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+// ─── Form Card ────────────────────────────────────────────
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  @include flex-col;
+  gap: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+  &__logo {
+    font-family: $font-display;
+    font-size: 1.7rem;
+    letter-spacing: 5px;
+    color: $accent-red;
+    margin-bottom: 2.2rem;
+    display: none; // only shown on mobile
+
+    @media (max-width: 900px) {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 2.2rem;
+    letter-spacing: 1.5px;
+    color: $text-primary;
+    margin-bottom: 0.4rem;
+  }
+
+  &__subtitle {
+    font-size: 0.88rem;
+    color: $text-muted;
+    margin-bottom: 2.2rem;
+    line-height: 1.5;
+  }
+}
+
+// ─── Form ─────────────────────────────────────────────────
+.auth-form {
+  @include flex-col;
+  gap: 1.2rem;
+}
+
+.form-group {
+  @include flex-col;
+  gap: 7px;
+  margin-top: 20px;
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $text-secondary;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+
+  // input wrapper for icon support
+  &__input-wrap {
+    position: relative;
+
+    .input {
+      padding-left: 44px;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $text-muted;
+      font-size: 1rem;
+      pointer-events: none;
+      transition: $transition;
+    }
+
+    &:focus-within .input-icon {
+      color: $accent-red;
+    }
+  }
+}
+
+// ─── Error Message ────────────────────────────────────────
+.auth-error {
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-left: 3px solid $accent-red;
+  border-radius: $radius-sm;
+  padding: 11px 14px;
+  font-size: 0.85rem;
+  color: #ff6b6b;
+  animation: fadeIn 0.25s ease;
+}
+
+// ─── Submit Button ────────────────────────────────────────
+.auth-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 0.95rem;
+  border-radius: $radius-sm;
+  margin-top: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+// ─── Divider ─────────────────────────────────────────────
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0.4rem 0;
+  color: $text-muted;
+  font-size: 0.8rem;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $border;
+  }
+}
+
+// ─── Switch Link ──────────────────────────────────────────
+.auth-switch {
+  text-align: center;
+  font-size: 0.87rem;
+  color: $text-muted;
+  margin-top: 1.6rem;
+
+  a {
+    color: $accent-red;
+    font-weight: 600;
+    margin-left: 4px;
+    transition: $transition;
+
+    &:hover {
+      color: $accent-hover;
+      text-decoration: underline;
+    }
+  }
+}
+
+// ─── Password Toggle ──────────────────────────────────────
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-muted;
+  font-size: 0.85rem;
+  transition: $transition;
+  background: transparent;
+
+  &:hover { color: $text-primary; }
+}

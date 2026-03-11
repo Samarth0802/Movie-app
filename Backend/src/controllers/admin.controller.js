@@ -120,7 +120,7 @@ async function editMovie(req, res, next) {
     const { id } = req.params;
 
     const updateData = { ...req.body };
-    console.log(req.file,updateData)
+    //console.log(req.file,updateData)
     const imageBuffer = req.file.buffer
     // agar new poster upload hua
     if (imageBuffer) {

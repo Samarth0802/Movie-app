@@ -1,8 +1,239 @@
-*{
-    margin:0%;
-    padding:0%;
-    box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+// ─── Variables ───────────────────────────────────────────
+$bg-primary:    #0a0a0a;
+$bg-secondary:  #141414;
+$bg-card:       #1c1c1c;
+$bg-elevated:   #242424;
+$bg-input:      #1a1a1a;
+
+$accent-red:    #e50914;
+$accent-hover:  #f40612;
+$accent-dim:    rgba(229, 9, 20, 0.15);
+$accent-glow:   rgba(229, 9, 20, 0.35);
+
+$text-primary:   #ffffff;
+$text-secondary: #b3b3b3;
+$text-muted:     #6b7280;
+
+$border:        rgba(255, 255, 255, 0.08);
+$border-focus:  rgba(229, 9, 20, 0.6);
+
+$radius-sm:  6px;
+$radius-md:  12px;
+$radius-lg:  18px;
+
+$font-display: 'Bebas Neue', sans-serif;
+$font-body:    'Montserrat', sans-serif;
+
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ─── Mixins ──────────────────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-html,body,#root{
-    width: 100%;
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin card-hover {
+  transition: $transition;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@mixin glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border;
+}
+
+@mixin red-glow {
+  box-shadow: 0 0 30px $accent-glow;
+}
+
+// ─── Reset ───────────────────────────────────────────────
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-body;
+  background: $bg-primary;
+  color: $text-primary;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: $font-body;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul { list-style: none; }
+
+input, textarea, select {
+  font-family: $font-body;
+}
+
+// ─── Scrollbar ───────────────────────────────────────────
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: $bg-secondary; }
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+  &:hover { background: $accent-red; }
+}
+
+// ─── Animations ──────────────────────────────────────────
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -700px 0; }
+  100% { background-position:  700px 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 $accent-glow; }
+  50%       { box-shadow: 0 0 0 8px transparent; }
+}
+
+// ─── Utility Classes ─────────────────────────────────────
+.fade-in-up {
+  animation: fadeInUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+// ─── Global Button ───────────────────────────────────────
+.btn {
+  @include flex-center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.4px;
+  transition: $transition;
+  cursor: pointer;
+
+  &-primary {
+    background: $accent-red;
+    color: #fff;
+    &:hover {
+      background: $accent-hover;
+      transform: translateY(-1px);
+      @include red-glow;
+    }
+    &:active { transform: translateY(0); }
+  }
+
+  &-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid $border;
+    backdrop-filter: blur(8px);
+    &:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+// ─── Global Input ────────────────────────────────────────
+.input {
+  width: 100%;
+  background: $bg-input;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  padding: 13px 16px;
+  color: $text-primary;
+  font-size: 0.92rem;
+  outline: none;
+  transition: $transition;
+
+  &::placeholder { color: $text-muted; }
+
+  &:focus {
+    border-color: $border-focus;
+    background: #1f1f1f;
+    box-shadow: 0 0 0 3px $accent-dim;
+  }
+}
+
+// ─── Spinner ─────────────────────────────────────────────
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+// ─── Skeleton ────────────────────────────────────────────
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $bg-card 25%,
+    $bg-elevated 50%,
+    $bg-card 75%
+  );
+  background-size: 700px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: $radius-sm;
 }
